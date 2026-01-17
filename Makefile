@@ -30,12 +30,12 @@ update-winxp:
 	git push origin main
 
 commit:
-	@cd .. && git add -A && git commit
+	git add -A && git commit
 
 resume.html: resume.md template.html
 	@if [ ! -d "winxp.css" ]; then \
 		echo "Error: winxp.css directory not found. Please run:"; \
-		echo "  git clone https://github.com/akinevz2/winxp.css.git winxp.css"; \
+		echo "  make clone-winxp"; \
 		exit 1; \
 	fi
 	pandoc resume.md \
