@@ -87,6 +87,7 @@ _Modern HTML resume generator using Pandoc and XP.css styling framework_
 - Created custom Pandoc template with Windows XP-inspired design
 - Automated build process with Makefile and npm integration
 - Demonstrates frontend design and build automation skills
+- Available at: [github.com/akinevz2/resume](https://github.com/akinevz2/resume)
 
 </fieldset>
 

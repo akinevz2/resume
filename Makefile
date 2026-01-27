@@ -1,23 +1,22 @@
-.PHONY: all clean preview watch setup clone-winxp update-winxp commit install
+.PHONY: all clean preview watch setup clone-xp update-xp commit install template.html
 
 all: resume.html
 
-setup: clone-winxp
-
-clone-winxp:
-	@if [ -d "winxp.css" ]; then \
-		echo "winxp.css already exists"; \
+setup: clone-xp
+clone-xp:
+	@if [ -d "xp.css" ]; then \
+		echo "xp.css already exists"; \
 	else \
-		echo "Cloning winxp.css..."; \
-		git clone https://github.com/akinevz2/winxp.css.git winxp.css; \
+		echo "Cloning xp.css..."; \
+		git clone https://github.com/akinevz2/xp.css.git xp.css; \
 	fi
 
-update-winxp:
-	@if [ ! -d "winxp.css" ]; then \
-		echo "Error: winxp.css not found. Run 'make setup' first."; \
+update-xp:
+	@if [ ! -d "xp.css" ]; then \
+		echo "Error: xp.css not found. Run 'make setup' first."; \
 		exit 1; \
 	fi
-	@cd winxp.css && \
+	@cd xp.css && \
 	if ! git remote | grep -q "^upstream$$"; then \
 		echo "Adding upstream remote..."; \
 		git remote add upstream https://github.com/botoxparty/XP.css.git; \
@@ -33,17 +32,17 @@ commit:
 	git add -A && git commit
 
 resume.html: resume.md template.html
-	@if [ ! -d "winxp.css" ]; then \
-		echo "Error: winxp.css directory not found. Please run:"; \
-		echo "  make clone-winxp"; \
+	@if [ ! -d "xp.css/dist" ]; then \
+		echo "Error: xp.css/dist directory not found. Please run:"; \
+		echo "  cd xp.css && npm install && npm run build"; \
 		exit 1; \
 	fi
 	pandoc resume.md \
 		-o resume.html \
-		--template=template.html \
-		--css=winxp.css/winxp.css \
+		--template=./template.html \
+		--css=xp.css/dist/XP.css \
 		--standalone \
-		--embed-resources
+		--self-contained
 
 clean:
 	rm -f resume.html resume.pdf
@@ -51,9 +50,10 @@ clean:
 pdf: resume.html
 	wkhtmltopdf resume.html resume.pdf
 
-preview: resume.html
+open: resume.html
 	@echo "Starting preview server..."
-	@npx -y serve -l 8000 .
+	@cp resume.html index.html
+	@npx -y serve -l 8087 
 
 watch:
 	@echo "Watching for changes..."
